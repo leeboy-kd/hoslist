@@ -29,88 +29,64 @@
 
     <script>
         const clinicData = [
-             { id: 1, name: "K마디병원", address: "북구 팔달로 217 (노원동2가)", phone: "053-341-0119", website: "https://www.hira.or.kr/main.do" },
-   	 { id: 2, name: "MS재건병원", address: "중구 동덕로 194 (동인동1가)", phone: "053-653-0119", website: "https://www.msrhospital.kr/" },
-  	 { id: 3, name: "W병원", address: "달서구 달구벌대로 1632 (감삼동)", phone: "1551-5119", website: "https://w-hospital.co.kr/" },
-
-	{ id: 4, name: "강남종합병원", address: "동구 동촌로 207 (방촌동)", phone: "053-980-9000", website: "https://gangnamhosp.co.kr/" },
-    	{ id: 5, name: "강병원", address: "북구 노원로 70 (노원동3가)", phone: "053-350-5000", website: "http://www.kanghosp.co.kr/" },
+    { id: 1, name: "K마디병원", address: "북구 팔달로 217 (노원동2가)", phone: "053-341-0119", website: "https://www.kmadi.com/" },
+    { id: 2, name: "MS재건병원", address: "중구 동덕로 194 (동인동1가)", phone: "053-653-0119", website: "https://www.msrhospital.kr/" },
+    { id: 3, name: "W병원", address: "달서구 달구벌대로 1632 (감삼동)", phone: "1551-5119", website: "https://w-hospital.co.kr/" },
+    { id: 4, name: "강남종합병원", address: "동구 동촌로 207 (방촌동)", phone: "053-980-9000", website: "https://gangnamhosp.co.kr/" },
+    { id: 5, name: "강병원", address: "북구 노원로 70 (노원동3가)", phone: "053-350-5000", website: "http://www.kanghosp.co.kr/" },
     { id: 6, name: "강북요양병원", address: "북구 칠곡중앙대로 504-6 (읍내동)", phone: "053-313-6006", website: "http://www.kangbukhosp.co.kr/" },
-
     { id: 7, name: "고려H한방병원", address: "수성구 동대구로 31, 5~9층 (두산동)", phone: "1533-1077", website: "https://koreahhospital.com/" },
     { id: 8, name: "곽병원", address: "중구 국채보상로 531 (수동)", phone: "053-252-2401", website: "https://www.kwakh.co.kr/" },
     { id: 9, name: "광개토병원", address: "서구 평리로 380 (내당동)", phone: "053-565-1190", website: "http://www.burn119.com/" },
     { id: 10, name: "구병원", address: "달서구 감삼북길 141 (감삼동)", phone: "053-560-9114", website: "http://kooh.co.kr" },
     { id: 11, name: "꽃담한방병원", address: "수성구 동대구로 353, 10~12층 (범어동)", phone: "053-257-1075", website: "https://2wayflower.com/" },
-
     { id: 12, name: "뉴라이프병원", address: "북구 공항로 15 (복현동)", phone: "053-384-9119", website: "http://www.newlife119.kr/" },
     { id: 13, name: "누네안과병원", address: "중구 달구벌대로 2179 (삼덕동2가)", phone: "053-715-3300", website: "https://www.noon.co.kr/" },
-
     { id: 14, name: "당당한방병원", address: "달서구 두류공원로 242 (두류동)", phone: "053-656-2020", website: "https://yesdang-ds.com/" },
-
     { id: 15, name: "대구JK병원", address: "수성구 명덕로 414 (범어동)", phone: "053-766-4500", website: "http://jk-medi.co.kr/" },
-    { id: 16, name: "대구삼선병원", address: "북구 칠곡중앙대로 448 (읍내동)", phone: "053-326-7575", website: "https://www.hira.or.kr/main.do" },
+    { id: 16, name: "대구삼선병원", address: "북구 칠곡중앙대로 448 (읍내동)", phone: "053-326-7575", website: "https://dgsamsun.co.kr/" },
     { id: 17, name: "대구시원한방병원", address: "동구 신암로 121 (신암동)", phone: "053-954-8888", website: "https://www.daegusiwon.com/" },
     { id: 18, name: "대구시티병원", address: "북구 동북로 270 (복현동)", phone: "053-959-7114", website: "http://www.daegucity.co.kr" },
     { id: 19, name: "대구시티요양병원", address: "북구 호국로 13 (산격동)", phone: "053-242-7000", website: "http://dgcnh.co.kr/" },
-
     { id: 20, name: "대현첨단요양병원", address: "북구 대현로 19 (대현동)", phone: "053-669-1000", website: "https://www.dhsilver.com/" },
-
-    { id: 21, name: "달서미즈맘병원", address: "달서구 월배로 62 (진천동)", phone: "053-609-5000", website: "http://mizmam.co.kr" },
-
-    { id: 22, name: "든든한방병원", address: "북구 침산로 142, 2~4층 (침산동)", phone: "053-354-5000", website: "https://deundeuncs.co.kr/" },
-    { id: 23, name: "든든한병원", address: "동구 신암로 120 (신암동)", phone: "053-940-3000", website: "https://www.ddhhospital.com" },
-
-    { id: 24, name: "로즈마리병원", address: "북구 팔거천동로 215 (동천동)", phone: "053-210-7777", website: "https://www.rmh.co.kr/" },
-
-    { id: 25, name: "무지개아동병원", address: "북구 침산로 138 (침산동)", phone: "053-356-7001", website: "http://www.rainbow365.net/" },
-    { id: 26, name: "문성병원", address: "남구 성당로 168 (대명동)", phone: "053-659-7000", website: "http://www.neuromunsung.co.kr/" },
-    { id: 27, name: "문요양병원", address: "북구 칠곡중앙대로 215 (태전동)", phone: "053-326-6800", website: "http://www.moonmedi.com/" },
-    { id: 28, name: "미래여성병원", address: "달서구 와룡로 207 (죽전동)", phone: "053-608-7000", website: "https://www.miraemom.co.kr/" },
-
-    { id: 29, name: "바로본병원", address: "동구 국채보상로 769 (신천동)", phone: "1644-8575", website: "https://www.barobone.kr/" },
-    { id: 30, name: "배성병원", address: "북구 검단로 140 (검단동)", phone: "053-383-2700", website: "http://www.bshospital.co.kr/" },
-
-    { id: 31, name: "새로본한방병원", address: "북구 칠곡중앙대로 411, 6~7층 (태전동)", phone: "053-292-0090", website: "https://www.xn--2o2bo3eoo0e28q2ykzq0a.com/" },
-    { id: 32, name: "서대구병원", address: "서구 국채보상로 200 (평리동)", phone: "053-558-5800", website: "https://www.sdg-hosp.com/" },
-    { id: 33, name: "세강병원", address: "달서구 구마로 220 (송현동)", phone: "053-620-6200", website: "http://www.skhospital.co.kr/" },
-    { id: 34, name: "센트럴 요양병원", address: "북구 연암로 111 (산격동)", phone: "053-957-8888", website: "https://centralhospital.kr/" },
-
-    { id: 35, name: "수성명가요양병원", address: "수성구 희망로 219 (황금동)", phone: "053-716-7300", website: "https://www.hira.or.kr/main.do" },
-    { id: 36, name: "수월한방병원(수성)", address: "수성구 동대구로 64 (지산동)", phone: "053-745-5000", website: "https://suwol.kr/" },
-    { id: 37, name: "수월한방병원(침산)", address: "북구 침산로 148, 엠브로스퀘어 4~7층 (침산동)", phone: "053-556-5000", website: "https://suwolcs.co.kr/" },
-
-    { id: 38, name: "신세계병원", address: "북구 동북로 196 (산격동)", phone: "053-954-7771", website: "http://www.ssghospital.co.kr/" },
-    { id: 39, name: "신홍도요양병원", address: "달서구 용산로 141 (용산동)", phone: "053-526-5991", website: "http://www.hdhospital.co.kr/" },
-
-    { id: 40, name: "여성메디파크병원", address: "수성구 동대구로 271 (범어동)", phone: "053-740-7700", website: "http://www.md-park.co.kr" },
-
-    { id: 41, name: "연경푸른숲한방병원", address: "북구 동화천로 237, 4~7층 (연경동)", phone: "053-983-3300", website: "http://www.xn--289al5vc5bhtat2sf3f7tb729cyzb.com/" },
-    { id: 42, name: "엔케이라피움한방병원", address: "북구 동북로 244, 9~11층 (복현동)", phone: "053-953-1578", website: "http://nkrafium.com/" },
-
-    { id: 43, name: "올곧은병원", address: "수성구 화랑로 66 (만촌동)", phone: "053-756-0911", website: "http://www.allrighthosp.kr/" },
-    { id: 44, name: "우리아이아동병원", address: "북구 동북로 244 (복현동)", phone: "053-953-9900", website: "http://www.ourkid.co.kr" },
-    { id: 45, name: "으뜸병원", address: "중구 국채보상로 536 (수동)", phone: "053-423-0100", website: "https://daegutop.co.kr/" },
-    { id: 46, name: "이시아한방병원", address: "동구 팔공로 242-13, 7~9층 (봉무동)", phone: "053-957-7700", website: "https://www.esiahanbang.com/" },
-
-    { id: 47, name: "잘보는한방병원", address: "달서구 달구벌대로 1653, 5~10층 (감삼동)", phone: "053-559-7777", website: "http://www.365jal.com" },
-    { id: 48, name: "제이병원", address: "서구 달구벌대로 1677 (내당동)", phone: "053-571-6000", website: "http://www.j-hospital.com/" },
-
-    { id: 49, name: "창한방병원", address: "달서구 달구벌대로 1616 (감삼동)", phone: "053-556-9900", website: "https://changhospital.com/" },
-    { id: 50, name: "천주성삼병원", address: "수성구 달구벌대로 3190 (신매동)", phone: "053-790-1000", website: "http://www.sungsam21.com/" },
-    { id: 51, name: "침산제이병원", address: "북구 침산남로 94 (침산동)", phone: "053-353-4900", website: "https://www.hira.or.kr/main.do" },
-
-    { id: 52, name: "파티마요양병원", address: "동구 아양로 81 (신암동)", phone: "053-242-2800", website: "https://blog.naver.com/fatima2422800" },
-    { id: 53, name: "프라임 요양병원", address: "북구 신암로 111 (대현동)", phone: "053-952-7775", website: "http://xn--oi2b44h8xiu3awi60bf54d.kr/" },
-
-    { id: 54, name: "한성병원", address: "북구 칠성남로30길 28 (칠성동2가)", phone: "053-422-3114", website: "http://www.hsmedi.kr/" },
-    { id: 55, name: "한솔요양병원", address: "북구 침산로 167 (침산동)", phone: "053-354-5555", website: "http://www.tghansol.co.kr/" },
-
-    { id: 56, name: "효성병원", address: "수성구 수성로 194 (중동)", phone: "053-766-7070", website: "https://www.hshospital.co.kr/ko/health/health_01.php" },
-    { id: 57, name: "힘센병원", address: "남구 봉덕로 71 (봉덕동)", phone: "053-470-1000", website: "http://www.himsenos.com/" },
-
-    { id: 58, name: "여성메디파크병원(범어)", address: "수성구 동대구로 271 (범어동)", phone: "053-740-7700", website: "http://www.md-park.co.kr" }
- ];
+    { id: 21, name: "든든한방병원", address: "북구 침산로 142, 2~4층 (침산동)", phone: "053-354-5000", website: "https://deundeuncs.co.kr/" },
+    { id: 22, name: "든든한병원", address: "동구 신암로 120 (신암동)", phone: "053-940-3000", website: "https://www.ddhhospital.com" },
+    { id: 23, name: "로즈마리병원", address: "북구 팔거천동로 215 (동천동)", phone: "053-210-7777", website: "https://www.rmh.co.kr/" },
+    { id: 24, name: "무지개아동병원", address: "북구 침산로 138 (침산동)", phone: "053-356-7001", website: "http://www.rainbow365.net/" },
+    { id: 25, name: "문성병원", address: "남구 성당로 168 (대명동)", phone: "053-659-7000", website: "http://www.neuromunsung.co.kr/" },
+    { id: 26, name: "문요양병원", address: "북구 칠곡중앙대로 215 (태전동)", phone: "053-326-6800", website: "http://www.moonmedi.com/" },
+    { id: 27, name: "미래여성병원", address: "달서구 와룡로 207 (죽전동)", phone: "053-608-7000", website: "https://www.miraemom.co.kr/" },
+    { id: 28, name: "바로본병원", address: "동구 국채보상로 769 (신천동)", phone: "1644-8575", website: "https://www.barobone.kr/" },
+    { id: 29, name: "배성병원", address: "북구 검단로 140 (검단동)", phone: "053-383-2700", website: "http://www.bshospital.co.kr/" },
+    { id: 30, name: "새로본한방병원", address: "북구 칠곡중앙대로 411, 6~7층 (태전동)", phone: "053-292-0090", website: "https://www.xn--2o2bo3eoo0e28q2ykzq0a.com/" },
+    { id: 31, name: "서대구병원", address: "서구 국채보상로 200 (평리동)", phone: "053-558-5800", website: "https://www.sdg-hosp.com/" },
+    { id: 32, name: "세강병원", address: "달서구 구마로 220 (송현동)", phone: "053-620-6200", website: "http://www.skhospital.co.kr/" },
+    { id: 33, name: "센트럴 요양병원", address: "북구 연암로 111 (산격동)", phone: "053-957-8888", website: "https://centralhospital.kr/" },
+    { id: 34, name: "수성명가요양병원", address: "수성구 희망로 219 (황금동)", phone: "053-716-7300", website: "https://naver.me/Gj6T4hyq" },
+    { id: 35, name: "수월한방병원(수성)", address: "수성구 동대구로 64 (지산동)", phone: "053-745-5000", website: "https://suwol.kr/" },
+    { id: 36, name: "수월한방병원(침산)", address: "북구 침산로 148, 엠브로스퀘어 4~7층 (침산동)", phone: "053-556-5000", website: "https://suwolcs.co.kr/" },
+    { id: 37, name: "신세계병원", address: "북구 동북로 196 (산격동)", phone: "053-954-7771", website: "http://www.ssghospital.co.kr/" },
+    { id: 38, name: "신홍도요양병원", address: "달서구 용산로 141 (용산동)", phone: "053-526-5991", website: "http://www.hdhospital.co.kr/" },
+    { id: 39, name: "여성메디파크병원", address: "수성구 동대구로 271 (범어동)", phone: "053-740-7700", website: "http://www.md-park.co.kr" },
+    { id: 40, name: "연경푸른숲한방병원", address: "북구 동화천로 237, 4~7층 (연경동)", phone: "053-983-3300", website: "http://www.xn--289al5vc5bhtat2sf3f7tb729cyzb.com/" },
+    { id: 41, name: "엔케이라피움한방병원", address: "북구 동북로 244, 9~11층 (복현동)", phone: "053-953-1578", website: "http://nkrafium.com/" },
+    { id: 42, name: "올곧은병원", address: "수성구 화랑로 66 (만촌동)", phone: "053-756-0911", website: "http://www.allrighthosp.kr/" },
+    { id: 43, name: "우리아이아동병원", address: "북구 동북로 244 (복현동)", phone: "053-953-9900", website: "http://www.ourkid.co.kr" },
+    { id: 44, name: "으뜸병원", address: "중구 국채보상로 536 (수동)", phone: "053-423-0100", website: "https://daegutop.co.kr/" },
+    { id: 45, name: "이시아한방병원", address: "동구 팔공로 242-13, 7~9층 (봉무동)", phone: "053-957-7700", website: "https://www.esiahanbang.com/" },
+    { id: 46, name: "잘보는한방병원", address: "달서구 달구벌대로 1653, 5~10층 (감삼동)", phone: "053-559-7777", website: "http://www.365jal.com" },
+    { id: 47, name: "제이병원", address: "서구 달구벌대로 1677 (내당동)", phone: "053-571-6000", website: "http://www.j-hospital.com/" },
+    { id: 48, name: "창한방병원", address: "달서구 달구벌대로 1616 (감삼동)", phone: "053-556-9900", website: "https://changhospital.com/" },
+    { id: 49, name: "천주성삼병원", address: "수성구 달구벌대로 3190 (신매동)", phone: "053-790-1000", website: "http://www.sungsam21.com/" },
+    { id: 50, name: "침산제이병원", address: "북구 침산남로 94 (침산동)", phone: "053-353-4900", website: "https://blog.naver.com/sejinhp3" },
+    { id: 51, name: "파티마요양병원", address: "동구 아양로 81 (신암동)", phone: "053-242-2800", website: "https://blog.naver.com/fatima2422800" },
+    { id: 52, name: "프라임 요양병원", address: "북구 신암로 111 (대현동)", phone: "053-952-7775", website: "http://xn--oi2b44h8xiu3awi60bf54d.kr/" },
+    { id: 53, name: "한성병원", address: "북구 칠성남로30길 28 (칠성동2가)", phone: "053-422-3114", website: "http://www.hsmedi.kr/" },
+    { id: 54, name: "한솔요양병원", address: "북구 침산로 167 (침산동)", phone: "053-354-5555", website: "http://www.tghansol.co.kr/" },
+    { id: 55, name: "효성병원", address: "수성구 수성로 194 (중동)", phone: "053-766-7070", website: "https://www.hshospital.co.kr/ko/health/health_01.php" },
+    { id: 56, name: "힘센병원", address: "남구 봉덕로 71 (봉덕동)", phone: "053-470-1000", website: "http://www.himsenos.com/" },
+    { id: 57, name: "여성메디파크병원(범어)", address: "수성구 동대구로 271 (범어동)", phone: "053-740-7700", website: "http://www.md-park.co.kr" }
+];
 
         function renderTable(data) {
             const tbody = document.getElementById('clinic-list-body');
