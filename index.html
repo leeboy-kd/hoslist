@@ -1,122 +1,222 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대구 병원 디렉토리</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>경대간호학원</title>
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body class="bg-white text-slate-800 min-h-screen p-1 sm:p-4">
-  <div class="w-full overflow-hidden shadow-sm rounded-lg border border-slate-200">
-    <table class="w-full text-left border-collapse table-fixed text-xs sm:text-sm">
-      <thead>
-        <tr class="bg-slate-100 border-b border-slate-300 text-slate-700 font-semibold uppercase">
-          <th scope="col" class="py-2 px-1 sm:px-3 w-[28%] border-r border-slate-200">병원명</th>
-          <th scope="col" class="py-2 px-1 sm:px-3 w-[38%] border-r border-slate-200">주소</th>
-          <th scope="col" class="py-2 px-1 sm:px-3 w-[20%] border-r border-slate-200">전화번호</th>
-          <th scope="col" class="py-2 px-1 sm:px-3 w-[14%] text-center">홈페이지</th>
-        </tr>
-      </thead>
-      <tbody id="clinic-list-body" class="divide-y divide-slate-200 text-sm">
-      </tbody>
-    </table>
-  </div>
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+        #map { width: 100%; height: 500px; }
+        .leaflet-div-icon { background: transparent !important; border: none !important; }
 
-    <script>
-        const clinicData = [
-    { id: 1, name: "K마디병원", address: "북구 팔달로 217 (노원동2가)", phone: "053-341-0119", website: "https://www.kmadi.com/" },
-    { id: 2, name: "MS재건병원", address: "중구 동덕로 194 (동인동1가)", phone: "053-653-0119", website: "https://www.msrhospital.kr/" },
-    { id: 3, name: "W병원", address: "달서구 달구벌대로 1632 (감삼동)", phone: "1551-5119", website: "https://w-hospital.co.kr/" },
-    { id: 4, name: "강남종합병원", address: "동구 동촌로 207 (방촌동)", phone: "053-980-9000", website: "https://gangnamhosp.co.kr/" },
-    { id: 5, name: "강병원", address: "북구 노원로 70 (노원동3가)", phone: "053-350-5000", website: "http://www.kanghosp.co.kr/" },
-    { id: 6, name: "강북요양병원", address: "북구 칠곡중앙대로 504-6 (읍내동)", phone: "053-313-6006", website: "http://www.kangbukhosp.co.kr/" },
-    { id: 7, name: "고려H한방병원", address: "수성구 동대구로 31, 5~9층 (두산동)", phone: "1533-1077", website: "https://koreahhospital.com/" },
-    { id: 8, name: "곽병원", address: "중구 국채보상로 531 (수동)", phone: "053-252-2401", website: "https://www.kwakh.co.kr/" },
-    { id: 9, name: "광개토병원", address: "서구 평리로 380 (내당동)", phone: "053-565-1190", website: "http://www.burn119.com/" },
-    { id: 10, name: "구병원", address: "달서구 감삼북길 141 (감삼동)", phone: "053-560-9114", website: "http://kooh.co.kr" },
-    { id: 11, name: "꽃담한방병원", address: "수성구 동대구로 353, 10~12층 (범어동)", phone: "053-257-1075", website: "https://2wayflower.com/" },
-    { id: 12, name: "뉴라이프병원", address: "북구 공항로 15 (복현동)", phone: "053-384-9119", website: "http://www.newlife119.kr/" },
-    { id: 13, name: "누네안과병원", address: "중구 달구벌대로 2179 (삼덕동2가)", phone: "053-715-3300", website: "https://www.noon.co.kr/" },
-    { id: 14, name: "당당한방병원", address: "달서구 두류공원로 242 (두류동)", phone: "053-656-2020", website: "https://yesdang-ds.com/" },
-    { id: 15, name: "대구JK병원", address: "수성구 명덕로 414 (범어동)", phone: "053-766-4500", website: "http://jk-medi.co.kr/" },
-    { id: 16, name: "대구삼선병원", address: "북구 칠곡중앙대로 448 (읍내동)", phone: "053-326-7575", website: "https://dgsamsun.co.kr/" },
-    { id: 17, name: "대구시원한방병원", address: "동구 신암로 121 (신암동)", phone: "053-954-8888", website: "https://www.daegusiwon.com/" },
-    { id: 18, name: "대구시티병원", address: "북구 동북로 270 (복현동)", phone: "053-959-7114", website: "http://www.daegucity.co.kr" },
-    { id: 19, name: "대구시티요양병원", address: "북구 호국로 13 (산격동)", phone: "053-242-7000", website: "http://dgcnh.co.kr/" },
-    { id: 20, name: "대현첨단요양병원", address: "북구 대현로 19 (대현동)", phone: "053-669-1000", website: "https://www.dhsilver.com/" },
-    { id: 21, name: "동인외과병원", address: "수성구 화랑로 48 동인연합외과병원", phone: "053-745-2001", website: "http://www.dongins.com/index/" },
-    { id: 22, name: "든든한방병원", address: "북구 침산로 142, 2~4층 (침산동)", phone: "053-354-5000", website: "https://deundeuncs.co.kr/" },
-    { id: 23, name: "든든한병원", address: "동구 신암로 120 (신암동)", phone: "053-940-3000", website: "https://www.ddhhospital.com" },
-    { id: 24, name: "로즈마리병원", address: "북구 팔거천동로 215 (동천동)", phone: "053-210-7777", website: "https://www.rmh.co.kr/" },
-    { id: 25, name: "무지개아동병원", address: "북구 침산로 138 (침산동)", phone: "053-356-7001", website: "http://www.rainbow365.net/" },
-    { id: 26, name: "문성병원", address: "남구 성당로 168 (대명동)", phone: "053-659-7000", website: "http://www.neuromunsung.co.kr/" },
-    { id: 27, name: "문요양병원", address: "북구 칠곡중앙대로 215 (태전동)", phone: "053-326-6800", website: "http://www.moonmedi.com/" },
-    { id: 28, name: "미래여성병원", address: "달서구 와룡로 207 (죽전동)", phone: "053-608-7000", website: "https://www.miraemom.co.kr/" },
-    { id: 29, name: "바로본병원", address: "동구 국채보상로 769 (신천동)", phone: "1644-8575", website: "https://www.barobone.kr/" },
-    { id: 30, name: "배성병원", address: "북구 검단로 140 (검단동)", phone: "053-383-2700", website: "http://www.bshospital.co.kr/" },
-    { id: 31, name: "새로본한방병원", address: "북구 칠곡중앙대로 411, 6~7층 (태전동)", phone: "053-292-0090", website: "https://www.xn--2o2bo3eoo0e28q2ykzq0a.com/" },
-    { id: 32, name: "서대구병원", address: "서구 국채보상로 200 (평리동)", phone: "053-558-5800", website: "https://www.sdg-hosp.com/" },
-    { id: 33, name: "세강병원", address: "달서구 구마로 220 (송현동)", phone: "053-620-6200", website: "http://www.skhospital.co.kr/" },
-    { id: 34, name: "센트럴 요양병원", address: "북구 연암로 111 (산격동)", phone: "053-957-8888", website: "https://centralhospital.kr/" },
-    { id: 35, name: "수성명가요양병원", address: "수성구 희망로 219 (황금동)", phone: "053-716-7300", website: "https://naver.me/Gj6T4hyq" },
-    { id: 36, name: "수월한방병원(수성)", address: "수성구 동대구로 64 (지산동)", phone: "053-745-5000", website: "https://suwol.kr/" },
-    { id: 37, name: "수월한방병원(침산)", address: "북구 침산로 148, 엠브로스퀘어 4~7층 (침산동)", phone: "053-556-5000", website: "https://suwolcs.co.kr/" },
-    { id: 38, name: "신세계병원", address: "북구 동북로 196 (산격동)", phone: "053-954-7771", website: "http://www.ssghospital.co.kr/" },
-    { id: 39, name: "신홍도요양병원", address: "달서구 용산로 141 (용산동)", phone: "053-526-5991", website: "http://www.hdhospital.co.kr/" },
-    { id: 40, name: "여성메디파크병원(범어)", address: "수성구 동대구로 271 (범어동)", phone: "053-740-7700", website: "http://www.md-park.co.kr" },
-    { id: 41, name: "연경푸른숲한방병원", address: "북구 동화천로 237, 4~7층 (연경동)", phone: "053-983-3300", website: "http://www.xn--289al5vc5bhtat2sf3f7tb729cyzb.com/" },
-    { id: 42, name: "엔케이라피움한방병원", address: "북구 동북로 244, 9~11층 (복현동)", phone: "053-953-1578", website: "http://nkrafium.com/" },
-    { id: 43, name: "올곧은병원", address: "수성구 화랑로 66 (만촌동)", phone: "053-756-0911", website: "http://www.allrighthosp.kr/" },
-    { id: 44, name: "우리아이아동병원", address: "북구 동북로 244 (복현동)", phone: "053-953-9900", website: "http://www.ourkid.co.kr" },
-    { id: 45, name: "으뜸병원", address: "중구 국채보상로 536 (수동)", phone: "053-423-0100", website: "https://daegutop.co.kr/" },
-    { id: 46, name: "이시아한방병원", address: "동구 팔공로 242-13, 7~9층 (봉무동)", phone: "053-957-7700", website: "https://www.esiahanbang.com/" },
-    { id: 47, name: "잘보는한방병원", address: "달서구 달구벌대로 1653, 5~10층 (감삼동)", phone: "053-559-7777", website: "http://www.365jal.com" },
-    { id: 48, name: "제이병원", address: "서구 달구벌대로 1677 (내당동)", phone: "053-571-6000", website: "http://www.j-hospital.com/" },
-    { id: 49, name: "창한방병원", address: "달서구 달구벌대로 1616 (감삼동)", phone: "053-556-9900", website: "https://changhospital.com/" },
-    { id: 50, name: "천주성삼병원", address: "수성구 달구벌대로 3190 (신매동)", phone: "053-790-1000", website: "http://www.sungsam21.com/" },
-    { id: 51, name: "침산제이병원", address: "북구 침산남로 94 (침산동)", phone: "053-353-4900", website: "https://blog.naver.com/sejinhp3" },
-    { id: 52, name: "파티마요양병원", address: "동구 아양로 81 (신암동)", phone: "053-242-2800", website: "https://blog.naver.com/fatima2422800" },
-    { id: 53, name: "프라임 요양병원", address: "북구 신암로 111 (대현동)", phone: "053-952-7775", website: "http://xn--oi2b44h8xiu3awi60bf54d.kr/" },
-    { id: 54, name: "한성병원", address: "북구 칠성남로30길 28 (칠성동2가)", phone: "053-422-3114", website: "http://www.hsmedi.kr/" },
-    { id: 55, name: "한솔요양병원", address: "북구 침산로 167 (침산동)", phone: "053-354-5555", website: "http://www.tghansol.co.kr/" },
-    { id: 56, name: "효성병원", address: "수성구 수성로 194 (중동)", phone: "053-766-7070", website: "https://www.hshospital.co.kr/ko/health/health_01.php" },
-    { id: 57, name: "힘센병원", address: "남구 봉덕로 71 (봉덕동)", phone: "053-470-1000", website: "http://www.himsenos.com/" },
-   
-];
-
-        function renderTable(data) {
-            const tbody = document.getElementById('clinic-list-body');
-            tbody.innerHTML = '';
-
-            data.forEach((clinic) => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-colors border-b border-slate-200";
-
-                let websiteHtml = '';
-                if (clinic.website && clinic.website.trim() !== "") {
-                    websiteHtml = `<a href="${clinic.website}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded transition-colors"><span>바로가기</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>`;
-                } else {
-                    websiteHtml = `<span class="text-slate-300 text-xs">-</span>`;
-                }
-
-                tr.innerHTML = `
-                    <td class="py-2.5 px-4 font-semibold text-slate-900 align-middle border-r border-slate-200">${clinic.name}</td>
-                    <td class="py-2.5 px-4 text-slate-600 align-middle border-r border-slate-200">${clinic.address}</td>
-                    <td class="py-2.5 px-4 text-slate-700 font-mono text-xs sm:text-sm align-middle border-r border-slate-200">${clinic.phone}</td>
-                    <td class="py-2.5 px-4 text-center align-middle">${websiteHtml}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+        /* 공통 기본 형태 */
+        .company-box {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            white-space: nowrap;
+            display: inline-block;
+            transition: transform 0.1s ease;
         }
 
-        window.onload = function() {
-            renderTable(clinicData);
+        /* 마우스 올렸을 때 약간 커지는 효과 */
+        .company-box:hover {
+            transform: scale(1.08);
+        }
+
+        /* 개별 배경색 & 글자색 설정 */
+        .company-box.style-white {
+            background-color: #ffffff;
+            color: #212529;
+            border: 2px solid #333333;
+        }
+
+        .company-box.style-blue {
+            background-color: #007bff;
+            color: #ffffff;
+            border: 1px solid #0056b3;
+        }
+
+        .company-box.style-red {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: 1px solid #bd2130;
+        }
+
+        .company-box.style-yellow {
+            background-color: #ffc107;
+            color: #212529;
+            border: 1px solid #e0a800;
+        }
+
+        .company-box.style-green {
+            background-color: #28a745;
+            color: #ffffff;
+            border: 1px solid #1d7832;
+        }
+
+        .company-box.style-kdnurse {
+            background-color: #007bff;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            font-size: 15px;
+        }
+
+        /* 원위치 커스텀 버튼 스타일 */
+        .reset-btn {
+            background-color: #ffffff;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .reset-btn:hover {
+            background-color: #f4f4f4;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    // 경대간호학원이 모바일 세로 화면 중앙에 오도록 중심 좌표 보정 (위도를 35.918로 살짝 상향 조정)
+    var initialLat = 35.9180229;
+    var initialLng = 128.6148196;
+    var initialZoom = 11;
+
+    // 지도 생성
+    var map = L.map('map').setView([initialLat, initialLng], initialZoom);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // 원위치 버튼 컨트롤 추가
+    var resetControl = L.control({ position: 'topright' });
+
+    resetControl.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'leaflet-bar');
+        div.innerHTML = '<button class="reset-btn" title="초기 위치로 이동">🏠 원위치</button>';
+        
+        L.DomEvent.disableClickPropagation(div);
+        div.onclick = function () {
+            map.flyTo([initialLat, initialLng], initialZoom, {
+                duration: 1
+            });
         };
-    </script>
+        return div;
+    };
+
+    resetControl.addTo(map);
+
+    // 총 업체 데이터
+    var stores = [
+        { name: "경대간호학원", lat: 35.8980229607434, lng: 128.61481967896094, url: "http://kdnurse.com", type: "style-kdnurse" },
+        { name: "K마디병원", lat: 35.8881315992025, lng: 128.573930810618, url: "https://www.kmadi.com/", type: "style-white" },
+        { name: "MS재건병원", lat: 35.87192212679198, lng: 128.60488990191826, url: "https://www.msrhospital.kr/", type: "style-white" },
+        { name: "W병원", lat: 35.8526419786843, lng: 128.544967362702, url: "https://w-hospital.co.kr/", type: "style-white" },
+        { name: "강남종합병원", lat: 35.88276978985764, lng: 128.66390276884587, url: "https://gangnamhosp.co.kr/", type: "style-white" },
+        { name: "강병원", lat: 35.89370726584472, lng: 128.56991583460345, url: "http://www.kanghosp.co.kr/", type: "style-white" },
+        { name: "강북요양병원", lat: 35.93990513278467, lng: 128.5507843025796, url: "http://www.kangbukhosp.co.kr/", type: "style-white" },
+        { name: "고려H한방병원", lat: 35.83313581155542, lng: 128.62288332262844, url: "https://koreahhospital.com/", type: "style-white" },
+        { name: "곽병원", lat: 35.87073988674746, lng: 128.5886861082294, url: "https://www.kwakh.co.kr/", type: "style-white" },
+        { name: "광개토병원", lat: 35.86610816681774, lng: 128.5938434604305, url: "http://www.burn119.com/", type: "style-white" },
+        { name: "구병원", lat: 35.85068205808636, lng: 128.54138287860084, url: "http://kooh.co.kr", type: "style-white" },
+        { name: "꽃담한방병원", lat: 35.876484717967244, lng: 128.62738122101186, url: "https://2wayflower.com/", type: "style-white" },
+        { name: "뉴라이프병원", lat: 35.8983342284925, lng: 128.616666726152, url: "http://www.newlife119.kr/", type: "style-white" },
+        { name: "누네안과병원", lat: 35.863751470721745, lng: 128.60191984251864, url: "https://www.noon.co.kr/", type: "style-white" },
+        { name: "당당한방병원", lat: 35.8564525706349, lng: 128.558946974091, url: "https://yesdang-ds.com/", type: "style-white" },
+        { name: "대구JK병원", lat: 35.8541062329115, lng: 128.615400642685, url: "http://jk-medi.co.kr/", type: "style-white" },
+        { name: "대구삼선병원", lat: 35.9356042296678, lng: 128.549230975882, url: "https://dgsamsun.co.kr/", type: "style-white" },
+        { name: "대구시원한방병원", lat: 35.88103, lng: 128.61252, url: "https://www.daegusiwon.com/", type: "style-white" },
+        { name: "대구시티병원", lat: 35.8934902814545, lng: 128.618055555555, url: "http://www.daegucity.co.kr", type: "style-white" },
+        { name: "대구시티요양병원", lat: 35.903917634740196, lng: 128.60241898031458, url: "http://dgcnh.co.kr/", type: "style-white" },
+        { name: "대현첨단요양병원", lat: 35.88641115090249, lng: 128.60289665787218, url: "https://www.dhsilver.com/", type: "style-white" },
+        { name: "동인외과병원", lat: 35.87043, lng: 128.63334, url: "http://www.dongins.com/index/", type: "style-white" },
+        { name: "든든한방병원", lat: 35.8890528885731, lng: 128.591613366027, url: "https://deundeuncs.co.kr/", type: "style-white" },
+        { name: "든든한병원", lat: 35.920971127627254, lng: 128.6431164230264, url: "https://www.ddhhospital.com", type: "style-white" },
+        { name: "로즈마리병원", lat: 35.943199138765, lng: 128.557854534805, url: "https://www.rmh.co.kr/", type: "style-white" },
+        { name: "무지개아동병원", lat: 35.8887972550889, lng: 128.591795400682, url: "http://www.rainbow365.net/", type: "style-white" },
+        { name: "문성병원", lat: 35.8487575145056, lng: 128.570442624938, url: "http://www.neuromunsung.co.kr/", type: "style-white" },
+        { name: "문요양병원", lat: 35.91536609933249, lng: 128.54799647926814, url: "http://www.moonmedi.com/", type: "style-white" },
+        { name: "미래여성병원", lat: 35.85122255230019, lng: 128.53682630557486, url: "https://www.miraemom.co.kr/", type: "style-white" },
+        { name: "바로본병원", lat: 35.868422001954215, lng: 128.6151819424808, url: "https://www.barobone.kr/", type: "style-white" },
+        { name: "배성병원", lat: 35.908115071024, lng: 128.622417357075, url: "http://www.bshospital.co.kr/", type: "style-white" },
+        { name: "새로본한방병원", lat: 35.9325220685237, lng: 128.54799410393, url: "https://www.xn--2o2bo3eoo0e28q2ykzq0a.com/", type: "style-white" },
+        { name: "서대구병원", lat: 35.8696711339918, lng: 128.552994823864, url: "https://www.sdg-hosp.com/", type: "style-white" },
+        { name: "세강병원", lat: 35.8368433457974, lng: 128.551650780189, url: "http://www.skhospital.co.kr/", type: "style-white" },
+        { name: "센트럴 요양병원", lat: 35.8944152357695, lng: 128.594016534407, url: "https://centralhospital.kr/", type: "style-white" },
+        { name: "수성명가요양병원", lat: 35.8464619, lng: 128.6229438, url: "https://naver.me/Gj6T4hyq", type: "style-white" },
+        { name: "수월한방병원(수성)", lat: 35.835993927295966, lng: 128.62437356811066, url: "https://suwol.kr/", type: "style-white" },
+        { name: "수월한방병원(침산)", lat: 35.8894829006038, lng: 128.591464720675, url: "https://suwolcs.co.kr/", type: "style-white" },
+        { name: "신세계병원", lat: 35.8978990127897, lng: 128.613649824903, url: "http://www.ssghospital.co.kr/", type: "style-white" },
+        { name: "신홍도요양병원", lat: 35.8501284657066, lng: 128.530126290024, url: "http://www.hdhospital.co.kr/", type: "style-white" },
+        { name: "여성메디파크병원(범어)", lat: 35.854640616578095, lng: 128.62488787717803, url: "http://www.md-park.co.kr", type: "style-white" },
+        { name: "연경푸른숲한방병원", lat: 35.9426065884153, lng: 128.616956705169, url: "http://www.xn--289al5vc5bhtat2sf3f7tb729cyzb.com/", type: "style-white" },
+        { name: "엔케이라피움한방병원", lat: 35.8952859080088, lng: 128.617453069151, url: "http://nkrafium.com/", type: "style-white" },
+        { name: "올곧은병원", lat: 35.87136470931308, lng: 128.63439661535378, url: "http://www.allrighthosp.kr/", type: "style-white" },
+        { name: "우리아이아동병원", lat: 35.89528590800883, lng: 128.6174530691505, url: "http://www.ourkid.co.kr", type: "style-white" },
+        { name: "으뜸병원", lat: 35.870037402966226, lng: 128.58933636935143, url: "https://daegutop.co.kr/", type: "style-white" },
+        { name: "이시아한방병원", lat: 35.920971127627254, lng: 128.6431164230264, url: "https://www.esiahanbang.com/", type: "style-white" },
+        { name: "잘보는한방병원", lat: 35.8542501814114, lng: 128.546675573071, url: "http://www.365jal.com", type: "style-white" },
+        { name: "제이병원", lat: 35.85516874409056, lng: 128.54917076180695, url: "http://www.j-hospital.com/", type: "style-white" },
+        { name: "창한방병원", lat: 35.8521526328103, lng: 128.543496754232, url: "https://changhospital.com/", type: "style-white" },
+        { name: "천주성삼병원", lat: 35.8402263675692, lng: 128.705732769793, url: "http://www.sungsam21.com/", type: "style-white" },
+        { name: "침산제이병원", lat: 35.88899663748319, lng: 128.58605747358598, url: "https://blog.naver.com/sejinhp3", type: "style-white" },
+        { name: "파티마요양병원", lat: 35.88342727480633, lng: 128.62270530010375, url: "https://blog.naver.com/fatima2422800", type: "style-white" },
+        { name: "프라임 요양병원", lat: 35.88079109480867, lng: 128.61128739283578, url: "http://xn--oi2b44h8xiu3awi60bf54d.kr/", type: "style-white" },
+        { name: "한성병원", lat: 35.8762300945602, lng: 128.597890540054, url: "http://www.hsmedi.kr/", type: "style-white" },
+        { name: "한솔요양병원", lat: 35.89102907135007, lng: 128.5899142485106, url: "http://www.tghansol.co.kr/", type: "style-white" },
+        { name: "효성병원", lat: 35.8426814486386, lng: 128.612791574195, url: "https://www.hshospital.co.kr/ko/health/health_01.php", type: "style-white" },
+        { name: "힘센병원", lat: 35.8451307472092, lng: 128.598904398639, url: "http://www.himsenos.com/", type: "style-white" }
+    ];
+
+    // 지도 상에 마커 올리기
+    stores.forEach(function(store) {
+        var icon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<a href="${store.url}" target="_blank" class="company-box ${store.type}">${store.name}</a>`,
+            iconSize: [100, 30],
+            iconAnchor: [50, 15]
+        });
+
+        var defaultZIndex = (store.type === 'style-kdnurse') ? 500 : 0;
+
+        var marker = L.marker([store.lat, store.lng], { 
+            icon: icon,
+            zIndexOffset: defaultZIndex
+        }).addTo(map);
+
+        marker.on('mouseover', function () {
+            this.setZIndexOffset(1000);
+        });
+
+        marker.on('mouseout', function () {
+            this.setZIndexOffset(defaultZIndex);
+        });
+    });
+
+    // 화면 크기 재계산
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 300);
+</script>
+
 </body>
 </html>
